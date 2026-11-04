@@ -7,3 +7,7 @@ __pycache__/
 .env
 drafts/
 sims/dist/
+
+# shorts: generated per clip, and the episode video copied in by hand
+public/shorts/
+public/source.mp4
