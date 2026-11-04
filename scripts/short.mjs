@@ -52,30 +52,55 @@ const cues = fs
   });
 
 const replacements = Object.entries(cfg.replace ?? {}).sort((a, b) => b[0].length - a[0].length);
-const applyReplace = (text) =>
-  replacements.reduce((s, [from, to]) => s.split(from).join(to), text);
-
 const BREAK = /[،,.…:؟?!]$/;
 const STRIP = /[،,.…:]+$/g;
 
-/** Words of one cue, timed in proportion to their length inside the cue. */
+// Silence the speaker leaves after punctuation, in "characters" of speech.
+const pauseAfter = (w) => (/…$/.test(w) ? 7 : /[:.]$/.test(w) ? 4 : /[،,]$/.test(w) ? 5 : 0);
+const bare = (w) => w.replace(/[،,.…:؟?!]+$/, '');
+
+/**
+ * Words of one cue. Each spoken word gets time in proportion to its length as written in
+ * the SRT (so "سبعتاشر" keeps its real duration even when shown as "17"), and punctuation
+ * inside the cue adds a pause. Replacements then merge words into what the caption shows.
+ */
 const cueWords = (cue) => {
-  const raw = applyReplace(cue.text).split(/\s+/).filter(Boolean);
-  const weights = raw.map((w) => Math.max(2, w.replace(STRIP, '').length));
-  const total = weights.reduce((a, b) => a + b, 0);
+  const raw = cue.text.split(/\s+/).filter(Boolean);
+  const speak = raw.map((w) => Math.max(2, bare(w).length));
+  const weights = raw.map((w, i) => speak[i] + (i < raw.length - 1 ? pauseAfter(w) : 0));
+  const unit = (cue.end - cue.start) / weights.reduce((a, b) => a + b, 0);
   let t = cue.start;
-  return raw.map((w, i) => {
-    const d = ((cue.end - cue.start) * weights[i]) / total;
-    const word = {
-      text: w.replace(STRIP, ''),
-      t0: t,
-      t1: t + d,
-      brk: BREAK.test(w),
-      emph: /[0-9٠-٩%]/.test(w),
-    };
-    t += d;
-    return word;
+  let toks = raw.map((w, i) => {
+    const tok = {raw: w, t0: t, t1: t + speak[i] * unit, done: false};
+    t += weights[i] * unit;
+    return tok;
   });
+  for (const [from, to] of replacements) {
+    const fw = from.split(' ');
+    for (let i = 0; i + fw.length <= toks.length; i++) {
+      const seg = toks.slice(i, i + fw.length);
+      if (seg.some((tk) => tk.done)) continue;
+      const first = bare(seg[0].raw);
+      const prefix = first.slice(0, first.length - fw[0].length);
+      // Allow a short Arabic prefix glued to the first word (ال، ل، و).
+      if (!first.endsWith(fw[0]) || prefix.length > 2) continue;
+      if (!seg.slice(1).every((tk, j) => bare(tk.raw) === fw[j + 1])) continue;
+      const last = seg[seg.length - 1].raw;
+      toks.splice(i, fw.length, {
+        raw: prefix + to + last.slice(bare(last).length),
+        t0: seg[0].t0,
+        t1: seg[seg.length - 1].t1,
+        done: true,
+      });
+    }
+  }
+  return toks.map((tk) => ({
+    text: tk.raw.replace(STRIP, ''),
+    t0: tk.t0,
+    t1: tk.t1,
+    brk: BREAK.test(tk.raw),
+    emph: /[0-9٠-٩%]/.test(tk.raw),
+  }));
 };
 
 // Consecutive Latin words ("Pitch Deck", "Y Combinator") stay one token, otherwise the
