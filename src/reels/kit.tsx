@@ -547,3 +547,77 @@ export const ReelShell: React.FC<{
     </AbsoluteFill>
   );
 };
+
+/** Big Latin number with an Arabic label after it (reads right to left). */
+export const Figure: React.FC<{n: React.ReactNode; label: string; size: number; color: string; brand: Brand}> = ({n, label, size, color, brand}) => (
+  <div dir="rtl" style={{display: 'flex', alignItems: 'baseline', gap: size * 0.18, whiteSpace: 'nowrap'}}>
+    <Num value={n as number} size={size} color={color} />
+    <div style={{fontFamily: AR, fontWeight: 900, fontSize: size * 0.42, color: brand.text}}>{label}</div>
+  </div>
+);
+
+/** A 1–5 score as five dots, filled right to left. */
+export const Dots5: React.FC<{frame: number; fps: number; at0: number; filled: number; color: string; y: number; x?: number}> = ({
+  frame,
+  fps,
+  at0,
+  filled,
+  color,
+  y,
+  x = 540,
+}) => (
+  <>
+    {[0, 1, 2, 3, 4].map((i) => {
+      const k = i < filled ? sp(frame, at0 + i * 0.09, SNAP, fps) : 0;
+      return (
+        <div key={i} style={at(x + 208 - i * 104, y, {width: 76, height: 76, borderRadius: 38, border: `4px solid ${i < filled ? color : 'rgba(255,255,255,0.18)'}`, boxSizing: 'border-box'})}>
+          <div style={{width: '100%', height: '100%', borderRadius: 38, background: color, transform: `scale(${k})`}} />
+        </div>
+      );
+    })}
+  </>
+);
+
+/** The nine criteria as numbered tiles with one lit. */
+export const CriteriaStrip: React.FC<{frame: number; fps: number; at0: number; lit: number; litAt: number; brand: Brand; y?: number}> = ({
+  frame,
+  fps,
+  at0,
+  lit,
+  litAt,
+  brand,
+  y = 880,
+}) => {
+  const l = sp(frame, litAt, SNAP, fps);
+  return (
+    <>
+      {Array.from({length: 9}).map((_, i) => {
+        const e = sp(frame, at0 + i * 0.04, FAST, fps);
+        const on = i === lit - 1;
+        return (
+          <div
+            key={i}
+            style={at(940 - i * 100, y - (on ? 40 * l : 0), {
+              width: 80,
+              height: 80,
+              borderRadius: 22,
+              background: on && l > 0.5 ? brand.accent : '#3A4049',
+              border: `3px solid ${on ? brand.accent : 'rgba(255,255,255,0.12)'}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: clamp01(e * 2),
+              transform: `translate(-50%,-50%) translateY(${120 * (1 - e)}px) scale(${on ? 1 + 0.35 * l : 1})`,
+              fontFamily: LATIN,
+              fontWeight: 900,
+              fontSize: 40,
+              color: on && l > 0.5 ? brand.bgDeep : 'rgba(255,255,255,0.55)',
+            })}
+          >
+            {i + 1}
+          </div>
+        );
+      })}
+    </>
+  );
+};
