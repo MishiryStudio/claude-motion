@@ -1,0 +1,39 @@
+{
+  "_note": "Seconds on the short's own clock. Word cues from shorts/E01.srt via public/shorts/E01-2/props.json.",
+  "scenes": {
+    "intro": 0.0,
+    "market": 1.2,
+    "airbnb": 4.2,
+    "why": 11.35,
+    "bluejay": 13.85,
+    "where": 20.5,
+    "score": 23.1,
+    "lesson": 25.4,
+    "cta": 30.7
+  },
+  "headlines": [
+    [0.0, "غلطة عمرها *17 سنة* في كل Pitch Deck"],
+    [1.2, "المعيار 2 · *حجم السوق*"],
+    [4.2, "*Airbnb* حسبت السوق"],
+    [9.45, "وفي الآخر: *15%*"],
+    [11.35, "طب ليه *15%*؟"],
+    [13.85, "*Bluejay* حسبت السوق"],
+    [18.45, "يعني *72 مليار*"],
+    [20.5, "الـ2 مليون شركة *جايين منين*؟"],
+    [23.1, "الدرجة *3 من 5* للاتنين"],
+    [25.4, "17 سنة… *نفس الغلطة*"],
+    [28.05, "رقم كبير *من غير مصدر*"],
+    [30.7, "قيّم *عرضك* بنفس المعايير"]
+  ],
+  "intro": {"ribbons": 0.0, "mark": 0.15},
+  "market": {"rings": 1.3, "both": 3.21},
+  "airbnb": {"trips": 5.47, "narrow": 6.61, "finally": 8.94, "take": 10.54},
+  "why": {"question": 12.24, "noReason": 12.88},
+  "bluejay": {"companies": 14.94, "times": 16.0, "price": 16.27, "equals": 18.52, "total": 19.18},
+  "where": {"focus": 20.72, "from": 22.04},
+  "score": {"dots": 23.85},
+  "lesson": {"years": 25.5, "same": 26.32, "big": 28.13, "source": 29.32, "noSource": 29.9},
+  "pulses": [0.6, 5.47, 6.61, 10.54, 12.88, 19.18, 23.85, 25.5, 29.9],
+  "shake": [12.88, 29.9],
+  "ctaHold": 3.2
+}
