@@ -24,6 +24,8 @@ type Seg = {from: number; src0: number; src1: number; dur: number};
 type Brand = {
   name: string;
   logo: string | null;
+  /** The logo split into its pieces (back to front), animated in the CTA. */
+  logoParts?: string[] | null;
   bg: string;
   bgDeep: string;
   accent: string;
@@ -49,6 +51,7 @@ export type ShortProps = {
 };
 
 const AR = '"Cairo", "Geeza Pro", system-ui, sans-serif';
+const LATIN = '"Inter Variable", Inter, system-ui, sans-serif';
 
 // Layout (px on the 1080×1920 canvas). Shorts/Reels UI covers roughly the top 140 px and
 // the bottom 320 px, so everything that must be read sits between them.
@@ -68,10 +71,9 @@ const useCairo = () => {
   const [handle] = useState(() => delayRender('cairo'));
   useEffect(() => {
     Promise.all(
-      ['900 80px Cairo', '700 40px Cairo'].flatMap((f) => [
-        document.fonts.load(f, 'اختبار'),
-        document.fonts.load(f, 'Airbnb 2025'),
-      ]),
+      ['900 80px Cairo', '700 40px Cairo']
+        .flatMap((f) => [document.fonts.load(f, 'اختبار'), document.fonts.load(f, 'Airbnb 2025')])
+        .concat(document.fonts.load('500 40px "Inter Variable"', 'MISHIRY')),
     ).then(() => continueRender(handle));
   }, [handle]);
 };
@@ -156,21 +158,20 @@ const Header: React.FC<{t: number; brand: Brand; kicker: string}> = ({t, brand, 
         opacity: 0.4 + 0.6 * k,
       }}
     >
-      {brand.logo ? (
-        <Img src={staticFile(brand.logo)} style={{height: 64}} />
-      ) : (
+      <div style={{display: 'flex', alignItems: 'center', gap: 18}}>
+        {brand.logo ? <Img src={staticFile(brand.logo)} style={{height: 54}} /> : null}
         <div
           style={{
-            fontFamily: AR,
-            fontSize: 30,
-            letterSpacing: '0.2em',
-            color: brand.muted,
-            fontWeight: 700,
+            fontFamily: LATIN,
+            fontSize: 40,
+            fontWeight: 500,
+            letterSpacing: '0.14em',
+            color: brand.text,
           }}
         >
-          {brand.name.toUpperCase()}
+          {brand.name.split(' ')[0].toUpperCase()}
         </div>
-      )}
+      </div>
       {kicker ? (
         <div
           dir="rtl"
@@ -343,6 +344,39 @@ const Captions: React.FC<{frame: number; fps: number; brand: Brand; pages: Page[
   );
 };
 
+/** The logo assembling piece by piece, each with a fading trail (as on the brand card). */
+const LogoBuild: React.FC<{frame: number; fps: number; at: number; parts: string[]}> = ({
+  frame,
+  fps,
+  at,
+  parts,
+}) => {
+  const h = 220;
+  const w = (h * 416) / 460;
+  return (
+    <div style={{position: 'relative', width: w, height: h, direction: 'ltr'}}>
+      {parts.map((src, i) => {
+        const k = sp(frame, at + i * 0.1, {damping: 15, stiffness: 150, mass: 0.8}, fps);
+        const x = -240 * (1 - k);
+        return [3, 2, 1, 0].map((j) => (
+          <Img
+            key={`${i}-${j}`}
+            src={staticFile(src)}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: w,
+              height: h,
+              opacity: j === 0 ? clamp01(k * 2.5) : clamp01(k * 2.5) * (1 - k) * (0.5 / j),
+              transform: `translateX(${x - j * 46 * (1 - k)}px)`,
+            }}
+          />
+        ));
+      })}
+    </div>
+  );
+};
+
 const Cta: React.FC<{frame: number; fps: number; at: number; brand: Brand; cta: ShortProps['cta']}> = ({
   frame,
   fps,
@@ -358,6 +392,7 @@ const Cta: React.FC<{frame: number; fps: number; at: number; brand: Brand; cta: 
     transform: `translateY(${(1 - k(i)) * 40}px)`,
   });
   const btn = k(3, POP);
+  const parts = brand.logoParts ?? (brand.logo ? [brand.logo] : []);
   return (
     <div
       dir="rtl"
@@ -377,6 +412,7 @@ const Cta: React.FC<{frame: number; fps: number; at: number; brand: Brand; cta: 
         textAlign: 'center',
       }}
     >
+      {parts.length ? <LogoBuild frame={frame} fps={fps} at={at + 0.3} parts={parts} /> : null}
       <div style={{...item(0), fontWeight: 900, fontSize: 80, lineHeight: 1.25}}>{cta.line1}</div>
       <div style={{...item(1), fontWeight: 700, fontSize: 40, color: brand.muted, lineHeight: 1.4}}>
         {cta.line2}
@@ -497,10 +533,10 @@ export const SHORT_DEFAULTS: ShortProps = {
   brand: {
     name: 'MISHIRY Studio',
     logo: null,
-    bg: '#2B3238',
-    bgDeep: '#1E2329',
-    accent: '#F5C518',
-    red: '#E5262B',
+    bg: '#2E333A',
+    bgDeep: '#23272D',
+    accent: '#FFCD09',
+    red: '#E12127',
     text: '#FFFFFF',
     muted: 'rgba(255,255,255,0.62)',
   },

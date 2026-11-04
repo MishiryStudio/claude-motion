@@ -4,11 +4,16 @@
   "srt": "shorts/E01.srt",
   "brand": {
     "name": "MISHIRY Studio",
-    "logo": null,
-    "bg": "#2B3238",
-    "bgDeep": "#1E2329",
-    "accent": "#F5C518",
-    "red": "#E5262B",
+    "logo": "brand/mishiry-mark.png",
+    "logoParts": [
+      "brand/mishiry-red.png",
+      "brand/mishiry-orange.png",
+      "brand/mishiry-yellow.png"
+    ],
+    "bg": "#2E333A",
+    "bgDeep": "#23272D",
+    "accent": "#FFCD09",
+    "red": "#E12127",
     "text": "#FFFFFF",
     "muted": "rgba(255,255,255,0.62)"
   },
