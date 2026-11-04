@@ -18,10 +18,10 @@ import {clamp01, easeIn, easeOut, prog, sp} from '../lib';
 // card, hook title above, word-by-word Arabic captions below, CTA card at the end.
 // Everything comes from props written by scripts/short.mjs; times are in seconds.
 
-type Word = {text: string; t0: number; t1: number; emph: boolean};
-type Page = {t0: number; t1: number; words: Word[]};
-type Seg = {from: number; src0: number; src1: number; dur: number};
-type Brand = {
+export type Word = {text: string; t0: number; t1: number; emph: boolean};
+export type Page = {t0: number; t1: number; words: Word[]};
+export type Seg = {from: number; src0: number; src1: number; dur: number};
+export type Brand = {
   name: string;
   logo: string | null;
   /** The logo split into its pieces (back to front), animated in the CTA. */
@@ -50,8 +50,8 @@ export type ShortProps = {
   ctaAt: number;
 };
 
-const AR = '"Cairo", "Geeza Pro", system-ui, sans-serif';
-const LATIN = '"Inter Variable", Inter, system-ui, sans-serif';
+export const AR = '"Cairo", "Geeza Pro", system-ui, sans-serif';
+export const LATIN = '"Inter Variable", Inter, system-ui, sans-serif';
 
 // Layout (px on the 1080×1920 canvas). Shorts/Reels UI covers roughly the top 140 px and
 // the bottom 320 px, so everything that must be read sits between them.
@@ -59,15 +59,15 @@ const CARD = {x: 40, y: 660, w: 1000, h: 562.5};
 const BAR_Y = CARD.y + CARD.h + 28;
 const CAPTION_Y = 1300;
 
-const SETTLE = {damping: 16, stiffness: 170, mass: 0.7};
-const POP = {damping: 10, stiffness: 220, mass: 0.7};
+export const SETTLE = {damping: 16, stiffness: 170, mass: 0.7};
+export const POP = {damping: 10, stiffness: 220, mass: 0.7};
 
-const rgba = (hex: string, a: number) => {
+export const rgba = (hex: string, a: number) => {
   const n = parseInt(hex.slice(1), 16);
   return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
 };
 
-const useCairo = () => {
+export const useCairo = () => {
   const [handle] = useState(() => delayRender('cairo'));
   useEffect(() => {
     Promise.all(
@@ -78,7 +78,7 @@ const useCairo = () => {
   }, [handle]);
 };
 
-const parseTitle = (s: string) => {
+export const parseTitle = (s: string) => {
   const out: {text: string; accent: boolean}[] = [];
   s.split(/(\*[^*]+\*)/)
     .filter(Boolean)
@@ -289,12 +289,14 @@ const SegVideo: React.FC<{seg: Seg; index: number; source: string; fps: number}>
   );
 };
 
-const Captions: React.FC<{frame: number; fps: number; brand: Brand; pages: Page[]}> = ({
-  frame,
-  fps,
-  brand,
-  pages,
-}) => {
+export const Captions: React.FC<{
+  frame: number;
+  fps: number;
+  brand: Brand;
+  pages: Page[];
+  top?: number;
+  size?: number;
+}> = ({frame, fps, brand, pages, top = CAPTION_Y, size = 82}) => {
   const t = frame / fps;
   const page = pages.find((p) => t >= p.t0 && t < p.t1);
   if (!page) return null;
@@ -304,7 +306,7 @@ const Captions: React.FC<{frame: number; fps: number; brand: Brand; pages: Page[
       dir="rtl"
       style={{
         position: 'absolute',
-        top: CAPTION_Y,
+        top,
         left: 50,
         right: 50,
         height: 220,
@@ -315,7 +317,7 @@ const Captions: React.FC<{frame: number; fps: number; brand: Brand; pages: Page[
         columnGap: 22,
         fontFamily: AR,
         fontWeight: 900,
-        fontSize: 82,
+        fontSize: size,
         lineHeight: 1.3,
         opacity: 1 - out,
       }}
@@ -345,7 +347,7 @@ const Captions: React.FC<{frame: number; fps: number; brand: Brand; pages: Page[
 };
 
 /** The logo assembling piece by piece, each with a fading trail (as on the brand card). */
-const LogoBuild: React.FC<{frame: number; fps: number; at: number; parts: string[]}> = ({
+export const LogoBuild: React.FC<{frame: number; fps: number; at: number; parts: string[]}> = ({
   frame,
   fps,
   at,

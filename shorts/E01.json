@@ -53,7 +53,10 @@
           376.5,
           388.6
         ]
-      ]
+      ],
+      "composition": "Reel-E01-1",
+      "beats": "reels/E01-1.beats.json",
+      "sfxScript": "reels/sfx_e01_1.py"
     },
     {
       "id": 2,

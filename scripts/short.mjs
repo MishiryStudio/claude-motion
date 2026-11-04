@@ -100,7 +100,9 @@ const buildClip = (clip) => {
   });
   const speechEnd = at;
   const ctaAt = speechEnd;
-  const duration = ctaAt + CTA_HOLD;
+  // Reels (rebuilt-in-code shorts) carry their own beat sheet and CTA length.
+  const beats = clip.beats ? JSON.parse(fs.readFileSync(path.join(ROOT, clip.beats), 'utf8')) : null;
+  const duration = ctaAt + (beats?.ctaHold ?? CTA_HOLD);
 
   const words = [];
   for (const seg of segments) {
@@ -161,8 +163,9 @@ const buildClip = (clip) => {
     pages,
     speechEnd,
     ctaAt,
+    ...(beats ? {beats} : {}),
   };
-  const timeline = {
+  const timeline = beats ? {fps: FPS, duration: props.durationSec, ...beats, words: words.map((w) => ({t: Number(w.t0.toFixed(2)), emph: w.emph}))} : {
     fps: FPS,
     duration: props.durationSec,
     title: 0,
@@ -192,14 +195,14 @@ if (!fs.existsSync(path.join(ROOT, 'public', cfg.source))) {
 for (const clip of clips) {
   const {id, dir, props} = buildClip(clip);
   console.log(`\n▶ ${id}: ${props.durationSec.toFixed(1)}s, ${props.pages.length} caption pages`);
-  run('python3', ['shorts/sfx_short.py', path.join(dir, 'timeline.json'), path.join(dir, 'sfx.wav')]);
+  run('python3', [clip.sfxScript ?? 'shorts/sfx_short.py', path.join(dir, 'timeline.json'), path.join(dir, 'sfx.wav')]);
   if (prepOnly) continue;
 
   fs.mkdirSync(path.join(ROOT, 'out', 'shorts'), {recursive: true});
   const raw = path.join('out', 'shorts', `${id}${draft ? '-draft' : ''}-raw.mp4`);
   const final = path.join('out', 'shorts', `${id}${draft ? '-draft' : ''}.mp4`);
   run('npx', [
-    'remotion', 'render', 'src/index.ts', 'Short', raw,
+    'remotion', 'render', 'src/index.ts', clip.composition ?? 'Short', raw,
     `--props=${path.join(dir, 'props.json')}`,
     ...(draft ? ['--scale=0.5', '--crf=26'] : []),
   ]);

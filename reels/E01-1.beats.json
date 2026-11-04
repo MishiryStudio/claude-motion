@@ -1,0 +1,111 @@
+{
+  "_note": "Seconds on the short's own clock (after the episode segments are joined). Word cues come from shorts/E01.srt via public/shorts/E01-1/props.json.",
+  "scenes": {
+    "intro": 0.0,
+    "decks": 0.95,
+    "investors": 5.3,
+    "y2025": 10.3,
+    "criteria": 14.8,
+    "lower": 17.4,
+    "result": 20.3,
+    "cta": 32.4
+  },
+  "headlines": [
+    [
+      0.0,
+      "7 مستثمرين رفضوا *Airbnb*"
+    ],
+    [
+      2.55,
+      "العرض الأول · سنة *2008*"
+    ],
+    [
+      5.3,
+      "7 مستثمرين *رفضوها*"
+    ],
+    [
+      7.42,
+      "النهارده اسمها *Airbnb*"
+    ],
+    [
+      10.3,
+      "العرض التاني · سنة *2025*"
+    ],
+    [
+      14.8,
+      "نفس *المعايير* التسعة"
+    ],
+    [
+      17.4,
+      "الأحدث خد درجة *أقل*"
+    ],
+    [
+      20.4,
+      "*النتيجة*"
+    ],
+    [
+      27.9,
+      "الاتنين تحت *الـ80*"
+    ],
+    [
+      30.8,
+      "الاتنين *مش جاهزين*"
+    ],
+    [
+      32.4,
+      "قيّم *عرضك* بنفس المعايير"
+    ]
+  ],
+  "intro": {
+    "ribbons": 0.0,
+    "mark": 0.15
+  },
+  "decks": {
+    "in": 0.95,
+    "focus2008": 2.55,
+    "year2008": 3.87
+  },
+  "investors": {
+    "land": 5.42,
+    "rejected": 6.57,
+    "recede": 7.42,
+    "airbnb": 9.51
+  },
+  "y2025": {
+    "card": 10.38,
+    "year": 11.82,
+    "ai": 13.01,
+    "small": 14.14
+  },
+  "criteria": {
+    "chips": 14.86,
+    "orbit": 16.11,
+    "nine": 16.78
+  },
+  "lower": {
+    "bars": 17.42,
+    "less": 19.59
+  },
+  "result": {
+    "word": 20.59,
+    "airbnb": 21.57,
+    "airbnbLand": 22.78,
+    "bluejay": 24.39,
+    "bluejayLand": 25.83,
+    "threshold": 28.62,
+    "thresholdLabel": 28.91,
+    "notReady": 31.59
+  },
+  "pulses": [
+    0.6,
+    5.42,
+    9.51,
+    11.82,
+    16.11,
+    22.78,
+    25.83,
+    28.62,
+    31.59
+  ],
+  "ctaHold": 3.2
+}
