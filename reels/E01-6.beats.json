@@ -1,0 +1,27 @@
+{
+  "_note": "Seconds on the short's own clock. Word cues from shorts/E01.srt via public/shorts/E01-6/props.json.",
+  "scenes": {
+    "intro": 0.0,
+    "order": 1.3,
+    "compare": 2.5,
+    "investor": 12.1,
+    "cta": 18.4
+  },
+  "headlines": [
+    [0.0, "المستثمر عايز يعرف *حاجتين* قبل القصة"],
+    [1.3, "قبل الدرجات… *الترتيب*"],
+    [2.5, "*Airbnb* بدأت بالمشكلة"],
+    [4.8, "*Bluejay* بدأت بالفريق"],
+    [10.4, "أول اختلاف *جوهري*"],
+    [12.1, "المستثمر النهارده عايز يعرف…"],
+    [16.6, "…قبل ما يسمع *القصة*"],
+    [18.4, "قيّم *عرضك* بنفس المعايير"]
+  ],
+  "intro": {"ribbons": 0.0, "mark": 0.15},
+  "order": {"slots": 1.68},
+  "compare": {"airbnb": 2.56, "aProblem": 3.75, "bluejay": 4.87, "team": 5.95, "money": 7.62, "problem": 9.5, "link": 10.46, "chip": 11.52},
+  "investor": {"who": 14.31, "pays": 15.61, "story": 17.19},
+  "pulses": [0.6, 3.75, 5.95, 7.62, 9.5, 11.52, 14.31, 15.61, 17.57],
+  "shake": [],
+  "ctaHold": 3.2
+}

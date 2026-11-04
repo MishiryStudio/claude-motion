@@ -13,6 +13,8 @@ import beatsE01_4 from '../reels/E01-4.beats.json';
 import {ReelE01_4, Reel4Props} from './reels/ReelE01_4';
 import beatsE01_5 from '../reels/E01-5.beats.json';
 import {ReelE01_5, Reel5Props} from './reels/ReelE01_5';
+import beatsE01_6 from '../reels/E01-6.beats.json';
+import {ReelE01_6, Reel6Props} from './reels/ReelE01_6';
 import {Short, SHORT_DEFAULTS, ShortProps} from './shorts/Short';
 
 export const Root: React.FC = () => (
@@ -99,6 +101,19 @@ export const Root: React.FC = () => (
       height={1920}
       defaultProps={{...SHORT_DEFAULTS, beats: beatsE01_5} as unknown as Reel5Props}
       calculateMetadata={({props}: {props: Reel5Props}) => ({
+        durationInFrames: Math.round(props.durationSec * props.fps),
+        fps: props.fps,
+      })}
+    />
+    <Composition
+      id="Reel-E01-6"
+      component={ReelE01_6}
+      durationInFrames={30 * 30}
+      fps={30}
+      width={1080}
+      height={1920}
+      defaultProps={{...SHORT_DEFAULTS, beats: beatsE01_6} as unknown as Reel6Props}
+      calculateMetadata={({props}: {props: Reel6Props}) => ({
         durationInFrames: Math.round(props.durationSec * props.fps),
         fps: props.fps,
       })}

@@ -133,7 +133,10 @@
           91.3,
           109.7
         ]
-      ]
+      ],
+      "composition": "Reel-E01-6",
+      "beats": "reels/E01-6.beats.json",
+      "sfxScript": "reels/sfx_e01_6.py"
     },
     {
       "id": 7,
