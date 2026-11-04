@@ -535,7 +535,15 @@ export const ReelE01_1: React.FC<ReelProps> = (p) => {
         <CtaScene frame={frame} fps={fps} t={t} at0={s.cta} brand={p.brand} cta={p.cta} />
       </Camera>
 
-      <Headline holdFirst t={t} list={b.headlines} brand={p.brand} top={lerp(1180, 300, prog(t, s.decks, s.decks + 0.5, easeInOut))} />
+      {/* The hook title sits low on frame 0, then hops to the top without crossing the decks. */}
+      <AbsoluteFill
+        style={{
+          opacity: t < s.decks + 0.12 ? 1 - prog(t, s.decks - 0.05, s.decks + 0.12, easeIn) : prog(t, s.decks + 0.15, s.decks + 0.45, easeOut),
+          filter: blur(10 * (t < s.decks + 0.12 ? prog(t, s.decks - 0.05, s.decks + 0.12, easeIn) : 1 - prog(t, s.decks + 0.15, s.decks + 0.45, easeOut))),
+        }}
+      >
+        <Headline holdFirst t={t} list={b.headlines} brand={p.brand} top={t < s.decks + 0.13 ? 1180 : 300} />
+      </AbsoluteFill>
       <Captions frame={frame} fps={fps} brand={p.brand} pages={p.pages} top={1450} size={60} />
 
       <Ribbons t={t} at={b.intro.ribbons} dir={1} />
