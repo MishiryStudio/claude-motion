@@ -86,7 +86,10 @@
           437.93,
           445.38
         ]
-      ]
+      ],
+      "composition": "Reel-E01-3",
+      "beats": "reels/E01-3.beats.json",
+      "sfxScript": "reels/sfx_e01_3.py"
     },
     {
       "id": 4,
