@@ -1,0 +1,30 @@
+{
+  "_note": "Seconds on the short's own clock. Word cues from shorts/E01.srt via public/shorts/E01-7/props.json.",
+  "scenes": {
+    "intro": 0.0,
+    "changed": 2.3,
+    "same": 7.1,
+    "deal": 14.0,
+    "meeting": 16.5,
+    "final": 21.47,
+    "cta": 26.41
+  },
+  "headlines": [
+    [0.0, "إيه اللي اتغير في *17 سنة*؟"],
+    [2.3, "اللي *اتغير*"],
+    [7.1, "واللي *ما اتغيرش*"],
+    [14.0, "مش العرض اللي *قفل الجولة*"],
+    [16.5, "العرض بيخليه *يكمل الاجتماع*"],
+    [21.47, "وافتكر…"],
+    [26.41, "قيّم *عرضك* بنفس المعايير"]
+  ],
+  "intro": {"ribbons": 0.0, "mark": 0.15},
+  "changed": {"shorter": 3.14, "numbers": 3.88, "numbersFirst": 4.95, "team": 5.4, "teamFirst": 6.6},
+  "same": {"title": 7.95, "q1": 10.29, "q2": 11.64, "q3": 12.99},
+  "deal": {"decks": 14.28, "close": 15.73},
+  "meeting": {"start": 17.57, "end": 20.39},
+  "final": {"deck": 22.48, "prettier": 23.84, "clearer": 24.42, "sharp": 25.64},
+  "pulses": [0.6, 3.14, 4.95, 6.6, 10.29, 11.64, 12.99, 15.73, 20.39, 25.64],
+  "shake": [15.73],
+  "ctaHold": 3.4
+}

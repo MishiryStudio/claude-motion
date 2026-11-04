@@ -151,7 +151,10 @@
           461.66,
           466.6
         ]
-      ]
+      ],
+      "composition": "Reel-E01-7",
+      "beats": "reels/E01-7.beats.json",
+      "sfxScript": "reels/sfx_e01_7.py"
     }
   ]
 }
